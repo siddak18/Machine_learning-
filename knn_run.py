@@ -8,18 +8,16 @@ import seaborn as sns
 from measure import plot_confusion_matrix
 from knn import KNN_MDS
 
-# load the data from the csv file
+
 IRIS_DATA_PATH = './dataset/iris.csv'
 iris_df = pd.read_csv(IRIS_DATA_PATH)
 
-# convert categorical values to numerical values
 iris_df['species'] = iris_df['species'].map({
     'Iris-setosa': 0, 
     'Iris-versicolor': 1, 
     'Iris-virginica': 2
 })
 
-# split the data into features and target
 X = iris_df[['sepal_length', 'sepal_width', 'petal_length', 'petal_width']].values
 y = iris_df['species'].values
 
@@ -34,14 +32,13 @@ for i in range(1, 10):
     knn = KNN_MDS(k=i)
     knn.fit(X_train, y_train)
     predictions = knn.predict(X_test)
-    # print accuracy, precision, recall, f1-score
     print("K = ", i)
     print(classification_report(
         y_test, predictions, target_names=labels))
     accuracy_scores.append(accuracy_score(y_test, predictions))
 
 sns.lineplot(x=range(1, len(accuracy_scores) + 1), y=accuracy_scores)
-plt.title('KNN Accuracy vs K (Neighbours)')
+plt.title('Knn accuracy vs K (Neighbours)')
 plt.xlabel('k')
 plt.ylabel('accuracy')
 plt.show()
